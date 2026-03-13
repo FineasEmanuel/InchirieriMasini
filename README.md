@@ -1,4 +1,4 @@
-#Închirieri mașini
+# Închirieri mașini
 Aplicația de închirieri de mașini va permite angajaților unui birou de închiriere să gestioneze eficient procesul de închiriere. După autentificare, angajatul va putea vizualiza lista completă de mașini disponibile, va selecta o mașină, va înregistra datele clientului (Nume, Prenume, CNP), va alege perioada de închiriere și va confirma contractul. Sistemul va calcula automat prețul total pe baza numărului de zile și va salva toate informațiile în baza de date. Mașina va deveni indisponibilă pentru alți clienți. La final, contractul poate fi tipărit. Aplicația va asigura o gestionare rapidă și organizată a închirierilor.
 Operațiile pentru implementarea aplicației:
 1. Autentificare angajați
