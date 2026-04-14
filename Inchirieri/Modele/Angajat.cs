@@ -6,5 +6,7 @@ namespace Inchirieri.Modele
 {
     internal class Angajat
     {
+        public string Username { get; set; }
+        public string Parola { get; set; }
     }
 }
