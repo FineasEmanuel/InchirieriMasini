@@ -1,12 +1,2 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Inchirieri.Modele
-{
-    internal class Angajat
-    {
-        public string Username { get; set; }
-        public string Parola { get; set; }
-    }
-}
+﻿// Compatibility placeholder - real types in Inchirieri.Core
+namespace Inchirieri.Modele { }

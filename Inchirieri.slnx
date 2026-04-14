@@ -1,3 +1,5 @@
 <Solution>
   <Project Path="Inchirieri/Inchirieri.csproj" />
+  <Project Path="Inchirieri.Core/Inchirieri.Core.csproj" />
+  <Project Path="Inchirieri.Data/Inchirieri.Data.csproj" />
 </Solution>

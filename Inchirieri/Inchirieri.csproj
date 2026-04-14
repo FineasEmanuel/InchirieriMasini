@@ -6,5 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Inchirieri.Core\Inchirieri.Core.csproj" />
+    <ProjectReference Include="..\Inchirieri.Data\Inchirieri.Data.csproj" />
+  </ItemGroup>
 
 </Project>
