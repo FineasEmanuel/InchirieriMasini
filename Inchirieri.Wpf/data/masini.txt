@@ -1,0 +1,5 @@
+1;Dacia;Logan;100;True;Rosu;AerConditionat
+2;BMW;X5;300;True;Negru;Navigatie,CutieAutomata
+3;Audi;A4;250;False;Alb;AerConditionat,Navigatie
+4;Tesla;Model 3;500;True;Albastru;Navigatie,CutieAutomata,ScauneIncalzite
+5;Volkswagen;Golf;180;True;Negru;AerConditionat,ScauneIncalzite
