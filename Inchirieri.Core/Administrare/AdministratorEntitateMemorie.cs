@@ -21,7 +21,8 @@ namespace Inchirieri.Core.Administrare
 
         public IEnumerable<T> Toate()
         {
-            get { return _lista; }
+            // Return all elements (use LINQ/Enumerable to satisfy requirement if needed)
+            return _lista.AsEnumerable();
         }
 
         // Modified to use LINQ as requested: return elements matching a predicate
