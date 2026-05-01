@@ -1,40 +1,29 @@
 using System.Windows;
 using System.Windows.Controls;
-using Inchirieri.Data.Stocare;
 using Inchirieri.Modele;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace Inchirieri.Wpf
 {
     public partial class MainWindow : Window
     {
-        private TextFileRepository<Masina> _repoMasini;
         private List<Masina> _masiniCache = new List<Masina>();
 
         public MainWindow()
         {
             InitializeComponent();
 
-            _repoMasini = new TextFileRepository<Masina>("data/masini.txt", MasinaTextSerializer.Deserialize, MasinaTextSerializer.Serialize);
-
-            // Seed default data if file empty
-            _masiniCache = _repoMasini.GetAll().ToList();
-            if (!_masiniCache.Any())
+            // Seed in-memory data for immediate UI functionality
+            _masiniCache = new List<Masina>
             {
-                _masiniCache = new List<Masina>
-                {
-                    new Masina(1, "Dacia", "Logan", 100, true) { Culoare = CuloareMasina.Rosu, Optiuni = OptiuniMasina.AerConditionat },
-                    new Masina(2, "BMW", "X5", 300, true) { Culoare = CuloareMasina.Negru, Optiuni = OptiuniMasina.Navigatie | OptiuniMasina.CutieAutomata },
-                    new Masina(3, "Audi", "A4", 250, false) { Culoare = CuloareMasina.Albastru, Optiuni = OptiuniMasina.ScauneIncalzite },
-                    new Masina(4, "Toyota", "Corolla", 150, true) { Culoare = CuloareMasina.Alb, Optiuni = OptiuniMasina.AerConditionat | OptiuniMasina.Navigatie },
-                    new Masina(5, "Ford", "Focus", 120, true) { Culoare = CuloareMasina.Necunoscut, Optiuni = OptiuniMasina.Niciuna }
-                };
-
-                // persist initial data
-                foreach (var m in _masiniCache)
-                    _repoMasini.Add(m);
-            }
+                new Masina(1, "Dacia", "Logan", 100, true) { Culoare = CuloareMasina.Rosu, Optiuni = OptiuniMasina.AerConditionat },
+                new Masina(2, "BMW", "X5", 300, true) { Culoare = CuloareMasina.Negru, Optiuni = OptiuniMasina.Navigatie | OptiuniMasina.CutieAutomata },
+                new Masina(3, "Audi", "A4", 250, false) { Culoare = CuloareMasina.Albastru, Optiuni = OptiuniMasina.ScauneIncalzite },
+                new Masina(4, "Toyota", "Corolla", 150, true) { Culoare = CuloareMasina.Alb, Optiuni = OptiuniMasina.AerConditionat | OptiuniMasina.Navigatie },
+                new Masina(5, "Ford", "Focus", 120, true) { Culoare = CuloareMasina.Necunoscut, Optiuni = OptiuniMasina.Niciuna }
+            };
 
             MasinaCombo.ItemsSource = _masiniCache;
             MasinaCombo.DisplayMemberPath = "Marca";
@@ -87,8 +76,10 @@ namespace Inchirieri.Wpf
             };
 
             _masiniCache.Add(m);
-            _repoMasini.Add(m);
-            MasinaCombo.Items.Refresh();
+            // refresh UI
+            MasinaCombo.ItemsSource = null;
+            MasinaCombo.ItemsSource = _masiniCache;
+            MasinaCombo.DisplayMemberPath = "Marca";
             UpdateTotal();
         }
 
@@ -98,19 +89,18 @@ namespace Inchirieri.Wpf
 
             if (!double.TryParse(TxtPret.Text, out double pret)) pret = selected.PretPeZi;
 
-            _repoMasini.Update(x => x.Id == selected.Id, x => {
-                x.Marca = TxtMarca.Text;
-                x.Model = TxtModel.Text;
-                x.PretPeZi = pret;
-                x.Disponibila = ChkDisponibila.IsChecked == true;
-                x.Culoare = RbCuloareRosu.IsChecked == true ? CuloareMasina.Rosu : RbCuloareAlb.IsChecked == true ? CuloareMasina.Alb : RbCuloareNegru.IsChecked == true ? CuloareMasina.Negru : CuloareMasina.Necunoscut;
-                x.Optiuni = (ChkAer.IsChecked == true ? OptiuniMasina.AerConditionat : OptiuniMasina.Niciuna) | (ChkNavigatie.IsChecked == true ? OptiuniMasina.Navigatie : OptiuniMasina.Niciuna) | (ChkCutie.IsChecked == true ? OptiuniMasina.CutieAutomata : OptiuniMasina.Niciuna);
-            });
+            // update in-memory
+            selected.Marca = TxtMarca.Text;
+            selected.Model = TxtModel.Text;
+            selected.PretPeZi = pret;
+            selected.Disponibila = ChkDisponibila.IsChecked == true;
+            selected.Culoare = RbCuloareRosu.IsChecked == true ? CuloareMasina.Rosu : RbCuloareAlb.IsChecked == true ? CuloareMasina.Alb : RbCuloareNegru.IsChecked == true ? CuloareMasina.Negru : CuloareMasina.Necunoscut;
+            selected.Optiuni = (ChkAer.IsChecked == true ? OptiuniMasina.AerConditionat : OptiuniMasina.Niciuna) | (ChkNavigatie.IsChecked == true ? OptiuniMasina.Navigatie : OptiuniMasina.Niciuna) | (ChkCutie.IsChecked == true ? OptiuniMasina.CutieAutomata : OptiuniMasina.Niciuna);
 
-            // refresh cache and UI
-            _masiniCache = _repoMasini.GetAll().ToList();
+            // refresh UI
+            MasinaCombo.ItemsSource = null;
             MasinaCombo.ItemsSource = _masiniCache;
-            MasinaCombo.Items.Refresh();
+            MasinaCombo.DisplayMemberPath = "Marca";
             UpdateTotal();
         }
 
@@ -118,13 +108,12 @@ namespace Inchirieri.Wpf
         {
             if (!(MasinaCombo.SelectedItem is Masina selected)) return;
 
-            // remove from cache and rewrite file
+            // remove from cache
             _masiniCache.RemoveAll(x => x.Id == selected.Id);
-            // rewrite file with remaining items
-            System.IO.File.WriteAllLines("data/masini.txt", _masiniCache.Select(m => MasinaTextSerializer.Serialize(m)));
 
+            MasinaCombo.ItemsSource = null;
             MasinaCombo.ItemsSource = _masiniCache;
-            MasinaCombo.Items.Refresh();
+            MasinaCombo.DisplayMemberPath = "Marca";
             UpdateTotal();
         }
     }
