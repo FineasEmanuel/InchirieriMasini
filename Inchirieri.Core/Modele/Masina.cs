@@ -23,10 +23,10 @@ namespace Inchirieri.Modele
 
     public class Masina
     {
-        public int Id { get; }
-        public string Marca { get; }
-        public string Model { get; }
-        public double PretPeZi { get; }
+        public int Id { get; set; }
+        public string Marca { get; set; }
+        public string Model { get; set; }
+        public double PretPeZi { get; set; }
         public bool Disponibila { get; set; }
 
         // Enum fields requested by the assignment

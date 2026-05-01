@@ -62,17 +62,46 @@
                 </StackPanel>
             </Border>
 
-            <!-- Right: additional info / quick actions -->
+            <!-- Right: editor - add / edit entity -->
             <StackPanel Grid.Column="2" Margin="6">
-                <TextBlock Text="Informații rapide" FontSize="14" FontWeight="Bold" />
-                <TextBlock Text="Total mașini:" Margin="0,6,0,0" />
-                <TextBlock x:Name="TxtTotalMasini" Text="0" FontWeight="Bold" />
+                <TextBlock Text="Editor mașină" FontSize="14" FontWeight="Bold" />
+
+                <TextBlock Text="Marca" Margin="0,8,0,0" />
+                <TextBox x:Name="TxtMarca" />
+
+                <TextBlock Text="Model" Margin="0,8,0,0" />
+                <TextBox x:Name="TxtModel" />
+
+                <TextBlock Text="Preț pe zi" Margin="0,8,0,0" />
+                <TextBox x:Name="TxtPret" />
+
+                <CheckBox x:Name="ChkDisponibila" Content="Disponibilă" Margin="0,8,0,0" />
+
+                <TextBlock Text="Culoare" Margin="0,8,0,0" />
+                <StackPanel Orientation="Horizontal">
+                    <RadioButton x:Name="RbCuloareNecunoscut" Content="Necunoscut" GroupName="Culoare" IsChecked="True" Margin="0,0,6,0" />
+                    <RadioButton x:Name="RbCuloareRosu" Content="Roșu" GroupName="Culoare" Margin="0,0,6,0" />
+                    <RadioButton x:Name="RbCuloareAlb" Content="Alb" GroupName="Culoare" Margin="0,0,6,0" />
+                    <RadioButton x:Name="RbCuloareNegru" Content="Negru" GroupName="Culoare" />
+                </StackPanel>
+
+                <TextBlock Text="Opțiuni" Margin="0,8,0,0" />
+                <StackPanel>
+                    <CheckBox x:Name="ChkAer" Content="Aer condiționat" />
+                    <CheckBox x:Name="ChkNavigatie" Content="Navigație" />
+                    <CheckBox x:Name="ChkCutie" Content="Cutie automată" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Button x:Name="BtnAdd" Content="Adaugă" Width="80" Click="BtnAdd_Click" />
+                    <Button x:Name="BtnUpdate" Content="Actualizează" Width="100" Margin="6,0,0,0" Click="BtnUpdate_Click" />
+                    <Button x:Name="BtnDelete" Content="Șterge" Width="80" Margin="6,0,0,0" Click="BtnDelete_Click" />
+                </StackPanel>
 
                 <Separator Margin="0,10,0,10" />
 
-                <TextBlock Text="Căutare" FontWeight="Bold" />
-                <TextBox x:Name="TxtCautare" Margin="0,6,0,0" />
-                <Button Content="Caută" Margin="0,6,0,0" />
+                <TextBlock Text="Total mașini:" Margin="0,6,0,0" />
+                <TextBlock x:Name="TxtTotalMasini" Text="0" FontWeight="Bold" />
             </StackPanel>
         </Grid>
     </Grid>
