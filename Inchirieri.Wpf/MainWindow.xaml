@@ -1,0 +1,79 @@
+<Window x:Class="Inchirieri.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Inchirieri - Detalii Masina" Height="450" Width="800">
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" /> <!-- Menu -->
+            <RowDefinition Height="*" />    <!-- Content -->
+        </Grid.RowDefinitions>
+
+        <!-- Application menu -->
+        <Menu Grid.Row="0">
+            <MenuItem Header="File">
+                <MenuItem Header="Exit" />
+            </MenuItem>
+            <MenuItem Header="Actions">
+                <MenuItem Header="Adaugă mașină" />
+                <MenuItem Header="Închiriază mașină" />
+            </MenuItem>
+            <MenuItem Header="View">
+                <MenuItem Header="Refresh" />
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="Despre" />
+            </MenuItem>
+        </Menu>
+
+        <!-- Main responsive layout -->
+        <Grid Grid.Row="1" Margin="0,8,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="220" MinWidth="180" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="240" MinWidth="200" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Left: selection and actions -->
+            <StackPanel Grid.Column="0" Margin="6" VerticalAlignment="Stretch">
+                <TextBlock Text="Mașini disponibile" FontSize="14" FontWeight="Bold" Margin="0,0,0,6" />
+                <ComboBox x:Name="MasinaCombo" HorizontalAlignment="Stretch" SelectionChanged="MasinaCombo_SelectionChanged" />
+
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Left">
+                    <Button Content="Adaugă" Width="80" Margin="0,0,6,0" />
+                    <Button Content="Șterge" Width="80" Margin="0,0,6,0" />
+                    <Button Content="Închiriază" Width="90" />
+                </StackPanel>
+
+                <Separator Margin="0,10,0,10" />
+
+                <TextBlock Text="Filtre" FontWeight="Bold" />
+                <StackPanel Margin="0,6,0,0">
+                    <CheckBox Content="Disponibile" IsChecked="True" />
+                    <CheckBox Content="Cutie automată" />
+                    <CheckBox Content="Aer condiționat" />
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Center: details area -->
+            <Border Grid.Column="1" Margin="6" Padding="10" BorderBrush="#FFCCCCCC" BorderThickness="1" CornerRadius="4">
+                <StackPanel>
+                    <TextBlock Text="Detalii mașină" FontSize="16" FontWeight="Bold" Margin="0,0,0,8" />
+                    <TextBlock x:Name="TxtDetalii" Text="Selectează o mașină..." TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+
+            <!-- Right: additional info / quick actions -->
+            <StackPanel Grid.Column="2" Margin="6">
+                <TextBlock Text="Informații rapide" FontSize="14" FontWeight="Bold" />
+                <TextBlock Text="Total mașini:" Margin="0,6,0,0" />
+                <TextBlock x:Name="TxtTotalMasini" Text="0" FontWeight="Bold" />
+
+                <Separator Margin="0,10,0,10" />
+
+                <TextBlock Text="Căutare" FontWeight="Bold" />
+                <TextBox x:Name="TxtCautare" Margin="0,6,0,0" />
+                <Button Content="Caută" Margin="0,6,0,0" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
