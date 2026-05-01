@@ -28,21 +28,24 @@
         <!-- Main responsive layout -->
         <Grid Grid.Row="1" Margin="0,8,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="220" MinWidth="180" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="240" MinWidth="200" />
+                <!-- Equal columns so panels keep equal widths when window is resized -->
+                <ColumnDefinition Width="*" MinWidth="180" />
+                <ColumnDefinition Width="*" MinWidth="300" />
+                <ColumnDefinition Width="*" MinWidth="220" />
             </Grid.ColumnDefinitions>
 
             <!-- Left: selection and actions -->
-            <StackPanel Grid.Column="0" Margin="6" VerticalAlignment="Stretch">
+            <StackPanel Grid.Column="0" Margin="6" VerticalAlignment="Stretch" Background="{StaticResource PanelBrush}">
                 <TextBlock Text="Mașini disponibile" FontSize="14" FontWeight="Bold" Margin="0,0,0,6" />
+                <TextBox x:Name="TxtCautareStanga" Margin="0,0,0,6" />
+                <Button Content="Caută" Click="BtnSearchLeft_Click" Width="80" Margin="0,0,0,6" Background="{StaticResource ButtonBrush}" />
                 <ComboBox x:Name="MasinaCombo" HorizontalAlignment="Stretch" SelectionChanged="MasinaCombo_SelectionChanged" />
 
-                <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Left">
-                    <Button Content="Adaugă" Width="80" Margin="0,0,6,0" />
-                    <Button Content="Șterge" Width="80" Margin="0,0,6,0" />
-                    <Button Content="Închiriază" Width="90" />
-                </StackPanel>
+                <UniformGrid Columns="3" Margin="0,10,0,0" HorizontalAlignment="Stretch">
+                    <Button Content="Adaugă" Width="Auto" Margin="2" Background="{StaticResource ButtonBrush}" />
+                    <Button Content="Șterge" Width="Auto" Margin="2" Background="{StaticResource ButtonBrush}" />
+                    <Button Content="Închiriază" Width="Auto" Margin="2" Background="{StaticResource ButtonBrush}" />
+                </UniformGrid>
 
                 <Separator Margin="0,10,0,10" />
 
@@ -55,25 +58,32 @@
             </StackPanel>
 
             <!-- Center: details area -->
-            <Border Grid.Column="1" Margin="6" Padding="10" BorderBrush="#FFCCCCCC" BorderThickness="1" CornerRadius="4">
-                <StackPanel>
+            <Border Grid.Column="1" Margin="6" Padding="10" BorderBrush="{StaticResource TurquoiseDark}" BorderThickness="1" CornerRadius="6" Background="{StaticResource TurquoiseLight}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
                     <TextBlock Text="Detalii mașină" FontSize="16" FontWeight="Bold" Margin="0,0,0,8" />
-                    <TextBlock x:Name="TxtDetalii" Text="Selectează o mașină..." TextWrapping="Wrap" />
-                </StackPanel>
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <TextBlock x:Name="TxtDetalii" Text="Selectează o mașină..." TextWrapping="Wrap" />
+                    </ScrollViewer>
+                </Grid>
             </Border>
 
             <!-- Right: editor - add / edit entity -->
-            <StackPanel Grid.Column="2" Margin="6">
+            <StackPanel Grid.Column="2" Margin="6" Background="{StaticResource PanelBrush}">
                 <TextBlock Text="Editor mașină" FontSize="14" FontWeight="Bold" />
 
                 <TextBlock Text="Marca" Margin="0,8,0,0" />
-                <TextBox x:Name="TxtMarca" />
+                <TextBox x:Name="TxtMarca" Background="{StaticResource TextBoxBrush}" />
 
                 <TextBlock Text="Model" Margin="0,8,0,0" />
-                <TextBox x:Name="TxtModel" />
+                <TextBox x:Name="TxtModel" Background="{StaticResource TextBoxBrush}" />
 
                 <TextBlock Text="Preț pe zi" Margin="0,8,0,0" />
-                <TextBox x:Name="TxtPret" />
+                <TextBox x:Name="TxtPret" Background="{StaticResource TextBoxBrush}" />
 
                 <CheckBox x:Name="ChkDisponibila" Content="Disponibilă" Margin="0,8,0,0" />
 
@@ -92,11 +102,11 @@
                     <CheckBox x:Name="ChkCutie" Content="Cutie automată" />
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                    <Button x:Name="BtnAdd" Content="Adaugă" Width="80" Click="BtnAdd_Click" />
-                    <Button x:Name="BtnUpdate" Content="Actualizează" Width="100" Margin="6,0,0,0" Click="BtnUpdate_Click" />
-                    <Button x:Name="BtnDelete" Content="Șterge" Width="80" Margin="6,0,0,0" Click="BtnDelete_Click" />
-                </StackPanel>
+                <UniformGrid Columns="3" Margin="0,10,0,0">
+                    <Button x:Name="BtnAdd" Content="Adaugă" Click="BtnAdd_Click" Margin="4" Background="{StaticResource ButtonBrush}" />
+                    <Button x:Name="BtnUpdate" Content="Actualizează" Click="BtnUpdate_Click" Margin="4" Background="{StaticResource ButtonBrush}" />
+                    <Button x:Name="BtnDelete" Content="Șterge" Click="BtnDelete_Click" Margin="4" Background="{StaticResource ButtonBrush}" />
+                </UniformGrid>
 
                 <Separator Margin="0,10,0,10" />
 

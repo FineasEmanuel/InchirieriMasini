@@ -3,6 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-
+        <!-- Turquoise theme brushes -->
+        <SolidColorBrush x:Key="TurquoiseLight" Color="#FFDEFBF5" />
+        <SolidColorBrush x:Key="TurquoiseMedium" Color="#FF9EEFE6" />
+        <SolidColorBrush x:Key="TurquoiseDark" Color="#FF2BB6A5" />
+        <SolidColorBrush x:Key="PanelBrush" Color="#FFE6F9F6" />
+        <SolidColorBrush x:Key="ButtonBrush" Color="#FF57D3C2" />
+        <SolidColorBrush x:Key="TextBoxBrush" Color="#FFFFFFFF" />
     </Application.Resources>
 </Application>

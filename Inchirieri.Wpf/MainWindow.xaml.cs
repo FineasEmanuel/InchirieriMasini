@@ -31,6 +31,23 @@ namespace Inchirieri.Wpf
             UpdateTotal();
         }
 
+        private void BtnSearchLeft_Click(object sender, RoutedEventArgs e)
+        {
+            var query = TxtCautareStanga.Text?.Trim();
+            if (string.IsNullOrEmpty(query))
+            {
+                MasinaCombo.ItemsSource = _masiniCache;
+            }
+            else
+            {
+                var filtered = _masiniCache.Where(m => (m.Marca + " " + m.Model).IndexOf(query, System.StringComparison.OrdinalIgnoreCase) >= 0).ToList();
+                MasinaCombo.ItemsSource = filtered;
+            }
+
+            MasinaCombo.Items.Refresh();
+            UpdateTotal();
+        }
+
         private void MasinaCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (MasinaCombo.SelectedItem is Masina m)
@@ -60,7 +77,8 @@ namespace Inchirieri.Wpf
 
         private void UpdateTotal()
         {
-            TxtTotalMasini.Text = _masiniCache.Count.ToString();
+            int displayed = (MasinaCombo.ItemsSource as IEnumerable<Masina>)?.Count() ?? _masiniCache.Count;
+            TxtTotalMasini.Text = $"{displayed} / {_masiniCache.Count}";
         }
 
         private int NextId() => _masiniCache.Any() ? _masiniCache.Max(m => m.Id) + 1 : 1;
