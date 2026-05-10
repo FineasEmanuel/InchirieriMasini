@@ -27,8 +27,44 @@ namespace Inchirieri.Wpf
 
             MasinaCombo.ItemsSource = _masiniCache;
             MasinaCombo.DisplayMemberPath = "Marca";
+            MasiniList.ItemsSource = _masiniCache;
 
             UpdateTotal();
+        }
+
+        private void MasiniList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (MasiniList.SelectedItem is Masina m)
+            {
+                MasinaCombo.SelectedItem = m;
+            }
+        }
+
+        private void BtnCalcTotal_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(MasinaCombo.SelectedItem is Masina masina))
+            {
+                MessageBox.Show("Selectează mai întâi o mașină.", "Informație", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            if (!StartDatePicker.SelectedDate.HasValue || !EndDatePicker.SelectedDate.HasValue)
+            {
+                MessageBox.Show("Selectează data de început și data de sfârșit.", "Informație", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            var start = StartDatePicker.SelectedDate.Value;
+            var end = EndDatePicker.SelectedDate.Value;
+            var zile = (end - start).Days;
+            if (zile <= 0)
+            {
+                MessageBox.Show("Perioadă invalidă.", "Eroare", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var total = zile * masina.PretPeZi;
+            TxtCost.Text = $"Total: {total} lei ({zile} zile x {masina.PretPeZi} lei)";
         }
 
         private void BtnSearchLeft_Click(object sender, RoutedEventArgs e)
@@ -42,10 +78,22 @@ namespace Inchirieri.Wpf
             {
                 var filtered = _masiniCache.Where(m => (m.Marca + " " + m.Model).IndexOf(query, System.StringComparison.OrdinalIgnoreCase) >= 0).ToList();
                 MasinaCombo.ItemsSource = filtered;
+                if (!filtered.Any())
+                {
+                    MessageBox.Show("Nu exista aceasta masina", "Căutare", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
             }
 
             MasinaCombo.Items.Refresh();
             UpdateTotal();
+        }
+
+        private void TxtCautareStanga_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                BtnSearchLeft_Click(sender, new RoutedEventArgs());
+            }
         }
 
         private void MasinaCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -98,6 +146,8 @@ namespace Inchirieri.Wpf
             MasinaCombo.ItemsSource = null;
             MasinaCombo.ItemsSource = _masiniCache;
             MasinaCombo.DisplayMemberPath = "Marca";
+            MasiniList.ItemsSource = null;
+            MasiniList.ItemsSource = _masiniCache;
             UpdateTotal();
         }
 
@@ -119,6 +169,8 @@ namespace Inchirieri.Wpf
             MasinaCombo.ItemsSource = null;
             MasinaCombo.ItemsSource = _masiniCache;
             MasinaCombo.DisplayMemberPath = "Marca";
+            MasiniList.ItemsSource = null;
+            MasiniList.ItemsSource = _masiniCache;
             UpdateTotal();
         }
 
@@ -132,6 +184,8 @@ namespace Inchirieri.Wpf
             MasinaCombo.ItemsSource = null;
             MasinaCombo.ItemsSource = _masiniCache;
             MasinaCombo.DisplayMemberPath = "Marca";
+            MasiniList.ItemsSource = null;
+            MasiniList.ItemsSource = _masiniCache;
             UpdateTotal();
         }
     }
