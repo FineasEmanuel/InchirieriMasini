@@ -165,13 +165,14 @@ namespace Inchirieri.Wpf
             selected.Culoare = RbCuloareRosu.IsChecked == true ? CuloareMasina.Rosu : RbCuloareAlb.IsChecked == true ? CuloareMasina.Alb : RbCuloareNegru.IsChecked == true ? CuloareMasina.Negru : CuloareMasina.Necunoscut;
             selected.Optiuni = (ChkAer.IsChecked == true ? OptiuniMasina.AerConditionat : OptiuniMasina.Niciuna) | (ChkNavigatie.IsChecked == true ? OptiuniMasina.Navigatie : OptiuniMasina.Niciuna) | (ChkCutie.IsChecked == true ? OptiuniMasina.CutieAutomata : OptiuniMasina.Niciuna);
 
-            // refresh UI
-            MasinaCombo.ItemsSource = null;
-            MasinaCombo.ItemsSource = _masiniCache;
-            MasinaCombo.DisplayMemberPath = "Marca";
-            MasiniList.ItemsSource = null;
-            MasiniList.ItemsSource = _masiniCache;
+            // refresh UI while keeping selection
+            MasinaCombo.Items.Refresh();
+            MasiniList.Items.Refresh();
+            MasinaCombo.SelectedItem = selected;
+            TxtDetalii.Text = $"ID: {selected.Id}\nMarca: {selected.Marca}\nModel: {selected.Model}\nPret/zi: {selected.PretPeZi}\nDisponibila: {selected.Disponibila}\nCuloare: {selected.Culoare}\nOptiuni: {selected.Optiuni}";
             UpdateTotal();
+
+            MessageBox.Show("Entitate actualizată cu succes.", "Actualizare", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
