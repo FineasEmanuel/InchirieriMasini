@@ -1,0 +1,25 @@
+<Window x:Class="Inchirieri.Wpf.ClientViewWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Vizualizare Mașini" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+    <Grid Margin="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0">
+            <TextBlock Text="Mașini" FontWeight="Bold" />
+            <TextBox x:Name="TxtCautareClient" Margin="0,6,0,6" KeyDown="TxtCautareClient_KeyDown" />
+            <Button Content="Caută" Click="BtnSearchClient_Click" Width="80" />
+            <ListBox x:Name="LstMasiniClient" Margin="0,6,0,0" DisplayMemberPath="Marca" SelectionChanged="LstMasiniClient_SelectionChanged" />
+            <Button Content="Rezervă" Click="BtnReserve_Click" Margin="0,6,0,0" Width="100" />
+        </StackPanel>
+
+        <Border Grid.Column="1" Margin="8" Padding="8" BorderBrush="LightGray" BorderThickness="1">
+            <ScrollViewer>
+                <TextBlock x:Name="TxtDetaliiClient" Text="Selectează o mașină..." TextWrapping="Wrap" />
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</Window>

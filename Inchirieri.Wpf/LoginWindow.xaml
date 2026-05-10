@@ -1,0 +1,46 @@
+<Window x:Class="Inchirieri.Wpf.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Autentificare" Height="300" Width="420" WindowStartupLocation="CenterScreen">
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Autentificare" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" />
+
+        <Border Grid.Row="1" Margin="0,12,0,0" Padding="10" BorderBrush="LightGray" BorderThickness="1" CornerRadius="6">
+            <StackPanel>
+                <TextBlock Text="Sunteți:" />
+                <StackPanel Orientation="Horizontal" Margin="0,6,0,12">
+                    <RadioButton x:Name="RbAngajat" Content="Angajat" GroupName="Role" IsChecked="True" Margin="0,0,12,0" />
+                    <RadioButton x:Name="RbClient" Content="Client" GroupName="Role" />
+                </StackPanel>
+
+                <!-- Angajat fields -->
+                <StackPanel x:Name="PanelAngajat">
+                    <TextBlock Text="Username" />
+                    <TextBox x:Name="TxtUsername" />
+                    <TextBlock Text="Parolă" Margin="0,8,0,0" />
+                    <PasswordBox x:Name="PwdParola" />
+                </StackPanel>
+
+                <!-- Client fields -->
+                <StackPanel x:Name="PanelClient" Visibility="Collapsed">
+                    <TextBlock Text="Nume" />
+                    <TextBox x:Name="TxtNume" />
+                    <TextBlock Text="Prenume" Margin="0,8,0,0" />
+                    <TextBox x:Name="TxtPrenume" />
+                    <TextBlock Text="CNP" Margin="0,8,0,0" />
+                    <TextBox x:Name="TxtCNP" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+                    <Button x:Name="BtnLogin" Content="Autentificare" Width="110" Click="BtnLogin_Click" />
+                    <Button x:Name="BtnCreate" Content="Creează cont" Width="100" Margin="8,0,0,0" Click="BtnCreate_Click" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
