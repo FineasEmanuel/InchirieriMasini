@@ -1,7 +1,9 @@
+using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Inchirieri.Modele;
+using Inchirieri.Data.Stocare;
 
 namespace Inchirieri.Wpf
 {
@@ -34,7 +36,7 @@ namespace Inchirieri.Wpf
         {
             if (LstMasiniClient.SelectedItem is Masina m)
             {
-                TxtDetaliiClient.Text = $"ID: {m.Id}\nMarca: {m.Marca}\nModel: {m.Model}\nPret/zi: {m.PretPeZi} lei\nDisponibila: {m.Disponibila}\nCuloare: {m.Culoare}\nOptiuni: {m.Optiuni}";
+                TxtDetaliiClient.Text = $"ID: {m.Id}\nMarca: {m.Marca}\nModel: {m.Model}\nPret/zi: {m.PretPeZi} lei\nDisponibilă: {m.Disponibila}\nCuloare: {m.Culoare}\nOptiuni: {m.Optiuni}";
                 BtnReserve.IsEnabled = true;
                 try { ImgClientDetalii.Source = new System.Windows.Media.Imaging.BitmapImage(new Uri(m.ImageUrl)); } catch { ImgClientDetalii.Source = null; }
             }
