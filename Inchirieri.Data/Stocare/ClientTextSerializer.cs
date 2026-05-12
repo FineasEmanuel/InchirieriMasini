@@ -13,7 +13,12 @@ namespace Inchirieri.Data.Stocare
 
         public static string Serialize(Client c)
         {
-            return string.Join(";", c.Nume, c.Prenume, c.CNP);
+            return string.Join(";", Curata(c.Nume), Curata(c.Prenume), Curata(c.CNP));
+        }
+
+        private static string Curata(string text)
+        {
+            return text.Replace(';', ',').Trim();
         }
     }
 }

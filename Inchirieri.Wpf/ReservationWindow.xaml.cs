@@ -1,87 +1,97 @@
-using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using Inchirieri.Modele;
 using Inchirieri.Data.Stocare;
+using Inchirieri.Modele;
 
 namespace Inchirieri.Wpf
 {
     public partial class ReservationWindow : Window
     {
-        private Masina _masina;
+        private readonly Masina _masina;
+        private readonly TextFileRepository<Inchiriere> _repoRezervari;
+        private readonly TextFileRepository<Client> _repoClienti;
 
         public ReservationWindow(Masina masina)
         {
             InitializeComponent();
-            _masina = masina;
-            TxtMasina.Text = $"{masina.Marca} {masina.Model} - {masina.PretPeZi} lei/zi";
 
+            _masina = masina;
+            _repoRezervari = new TextFileRepository<Inchiriere>(
+                DataFiles.GetPath("reservari.txt"),
+                InchiriereTextSerializer.Deserialize,
+                InchiriereTextSerializer.Serialize);
+            _repoClienti = new TextFileRepository<Client>(
+                DataFiles.GetPath("clienti.txt"),
+                ClientTextSerializer.Deserialize,
+                ClientTextSerializer.Serialize);
+
+            TxtMasina.Text = $"{masina.Marca} {masina.Model} - {masina.PretPeZi:0.##} lei/zi";
             StartDate.SelectedDateChanged += Dates_SelectedDateChanged;
             EndDate.SelectedDateChanged += Dates_SelectedDateChanged;
         }
 
-        private void Dates_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        private void Dates_SelectedDateChanged(object? sender, SelectionChangedEventArgs e)
         {
-            if (StartDate.SelectedDate.HasValue && EndDate.SelectedDate.HasValue)
+            if (!StartDate.SelectedDate.HasValue || !EndDate.SelectedDate.HasValue)
             {
-                var zile = (EndDate.SelectedDate.Value - StartDate.SelectedDate.Value).Days;
-                if (zile > 0)
-                {
-                    var total = zile * _masina.PretPeZi;
-                    TxtPretTotal.Text = $"Preț total: {total} lei ({zile} zile)";
-                }
-                else
-                {
-                    TxtPretTotal.Text = "Perioadă invalidă";
-                }
+                return;
             }
+
+            int zile = (EndDate.SelectedDate.Value - StartDate.SelectedDate.Value).Days;
+            TxtPretTotal.Text = zile > 0
+                ? $"Pret total: {zile * _masina.PretPeZi:0.##} lei ({zile} zile)"
+                : "Perioada invalida.";
         }
 
         private void BtnConfirm_Click(object sender, RoutedEventArgs e)
         {
-            // basic validation
-            if (string.IsNullOrWhiteSpace(TxtNume.Text) || string.IsNullOrWhiteSpace(TxtPrenume.Text) || TxtCNP.Text.Length != 13)
+            string nume = TxtNume.Text.Trim();
+            string prenume = TxtPrenume.Text.Trim();
+            string cnp = TxtCNP.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(nume) || string.IsNullOrWhiteSpace(prenume) || cnp.Length != 13)
             {
-                MessageBox.Show("Completează corect datele personale (CNP 13 caractere)", "Validare", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Completeaza corect datele personale (CNP 13 caractere).", "Validare", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (!StartDate.SelectedDate.HasValue || !EndDate.SelectedDate.HasValue)
             {
-                MessageBox.Show("Selectează perioada.", "Validare", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Selecteaza perioada.", "Validare", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            var zile = (EndDate.SelectedDate.Value - StartDate.SelectedDate.Value).Days;
+            int zile = (EndDate.SelectedDate.Value - StartDate.SelectedDate.Value).Days;
             if (zile <= 0)
             {
-                MessageBox.Show("Perioadă invalidă.", "Validare", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Perioada invalida.", "Validare", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            // create client and inchiriere and persist reservation if available
-            var client = new Client(TxtNume.Text.Trim(), TxtPrenume.Text.Trim(), TxtCNP.Text.Trim());
-            var total = zile * _masina.PretPeZi;
-            var inchiriere = new Inchiriere(_masina, client, StartDate.SelectedDate.Value, EndDate.SelectedDate.Value, total);
+            Client client = new Client(nume, prenume, cnp);
+            double total = zile * _masina.PretPeZi;
+            Inchiriere inchiriere = new Inchiriere(_masina, client, StartDate.SelectedDate.Value, EndDate.SelectedDate.Value, total);
 
-            // check existing reservations
-            var repo = new Inchirieri.Data.Stocare.TextFileRepository<Inchiriere>("data/reservari.txt", InchiriereTextSerializer.Deserialize, InchiriereTextSerializer.Serialize);
-            var existing = repo.GetAll().ToList();
-            foreach (var r in existing)
+            bool conflict = _repoRezervari.GetAll().Any(r =>
+                r.Masina.Id == _masina.Id &&
+                inchiriere.Start < r.End &&
+                inchiriere.End > r.Start);
+
+            if (conflict)
             {
-                if (r.Masina.Id == _masina.Id)
-                {
-                    // overlap check: start < r.End && end > r.Start
-                    if (inchiriere.Start < r.End && inchiriere.End > r.Start)
-                    {
-                        MessageBox.Show("Mașina nu este disponibilă în perioada selectată.", "Conflict rezervare", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return;
-                    }
-                }
+                MessageBox.Show("Masina nu este disponibila in perioada selectata.", "Conflict rezervare", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
 
-            repo.Add(inchiriere);
-            MessageBox.Show($"Rezervare confirmată. Total: {total} lei", "Succes", MessageBoxButton.OK, MessageBoxImage.Information);
+            _repoRezervari.Add(inchiriere);
+
+            if (!_repoClienti.GetAll().Any(c => c.CNP == client.CNP))
+            {
+                _repoClienti.Add(client);
+            }
+
+            MessageBox.Show($"Rezervare confirmata. Total: {total:0.##} lei", "Succes", MessageBoxButton.OK, MessageBoxImage.Information);
             DialogResult = true;
             Close();
         }

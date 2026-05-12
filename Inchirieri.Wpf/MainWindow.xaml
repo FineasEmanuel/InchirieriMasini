@@ -1,168 +1,269 @@
 <Window x:Class="Inchirieri.Wpf.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Inchirieri - Detalii Masina" Height="450" Width="800">
-    <Grid Margin="8">
-        <Grid.Resources>
-            <!-- Common styles for the window, using brushes defined in App.xaml -->
-            <Style TargetType="Button">
-                <Setter Property="Background" Value="{StaticResource ButtonBrush}" />
-                <Setter Property="Foreground" Value="Black" />
-                <Setter Property="Padding" Value="6,4" />
-                <Setter Property="Margin" Value="4" />
-                <Setter Property="MinHeight" Value="32" />
-                <Setter Property="BorderBrush" Value="{StaticResource TurquoiseDark}" />
-                <Setter Property="BorderThickness" Value="1" />
-                <Setter Property="FontWeight" Value="SemiBold" />
-            </Style>
+        Title="AutoRent Desk - Administrare"
+        Height="720"
+        Width="1120"
+        MinHeight="660"
+        MinWidth="980"
+        WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <Border DockPanel.Dock="Top"
+                Background="{StaticResource HeaderBrush}"
+                Padding="24,18">
+            <Grid>
+                <StackPanel>
+                    <TextBlock Text="AutoRent Desk"
+                               Foreground="White"
+                               FontSize="30"
+                               FontWeight="Bold" />
+                    <TextBlock Text="Administrare masini, clienti si rezervari"
+                               Foreground="#E8EDFF"
+                               FontSize="14"
+                               Margin="0,4,0,0" />
+                </StackPanel>
+                <Border HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Background="#2B367C"
+                        CornerRadius="8"
+                        Padding="14,9">
+                    <StackPanel>
+                        <TextBlock Text="Masini afisate"
+                                   Foreground="#CAD3FF"
+                                   FontSize="11"
+                                   FontWeight="SemiBold" />
+                        <TextBlock x:Name="TxtTotalMasini"
+                                   Text="0"
+                                   Foreground="White"
+                                   FontSize="20"
+                                   FontWeight="Bold" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
 
-            <Style x:Key="LabelStyle" TargetType="TextBlock">
-                <Setter Property="Foreground" Value="Black" />
-                <Setter Property="FontWeight" Value="Bold" />
-            </Style>
-
-            <Style TargetType="TextBox">
-                <Setter Property="Background" Value="{StaticResource TextBoxBrush}" />
-                <Setter Property="Foreground" Value="Black" />
-                <Setter Property="BorderBrush" Value="{StaticResource TurquoiseMedium}" />
-                <Setter Property="MinHeight" Value="28" />
-                <Setter Property="Margin" Value="0,2,0,2" />
-                <Setter Property="Padding" Value="4" />
-            </Style>
-
-            <Style TargetType="ComboBox">
-                <Setter Property="MinHeight" Value="28" />
-                <Setter Property="Margin" Value="0,2,0,6" />
-            </Style>
-        </Grid.Resources>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" /> <!-- Menu -->
-            <RowDefinition Height="*" />    <!-- Content -->
-        </Grid.RowDefinitions>
-
-        <!-- Application menu -->
-        <Menu Grid.Row="0">
-            <MenuItem Header="File">
-                <MenuItem Header="Exit" />
+        <Menu DockPanel.Dock="Top"
+              Background="White"
+              BorderBrush="{StaticResource LineBrush}"
+              BorderThickness="0,0,0,1">
+            <MenuItem Header="_File">
+                <MenuItem Header="Exit" Click="MenuExit_Click" />
             </MenuItem>
-            <MenuItem Header="Actions">
-                <MenuItem Header="Adaugă mașină" />
-                <MenuItem Header="Închiriază mașină" />
+            <MenuItem Header="_Actiuni">
+                <MenuItem Header="Masina noua" Click="MenuMasinaNoua_Click" />
+                <MenuItem Header="Rezerva masina selectata" Click="MenuRezerva_Click" />
             </MenuItem>
-            <MenuItem Header="View">
-                <MenuItem Header="Refresh" />
+            <MenuItem Header="_View">
+                <MenuItem Header="Refresh date" Click="MenuRefresh_Click" />
             </MenuItem>
-            <MenuItem Header="Help">
-                <MenuItem Header="Despre" />
+            <MenuItem Header="_Help">
+                <MenuItem Header="Despre" Click="MenuDespre_Click" />
             </MenuItem>
         </Menu>
 
-        <!-- Main responsive layout -->
-        <Grid Grid.Row="1" Margin="0,8,0,0">
+        <Grid Margin="18">
             <Grid.ColumnDefinitions>
-                <!-- Equal columns so panels keep equal widths when window is resized -->
-                <ColumnDefinition Width="*" MinWidth="180" />
-                <ColumnDefinition Width="*" MinWidth="300" />
-                <ColumnDefinition Width="*" MinWidth="220" />
+                <ColumnDefinition Width="1.05*" MinWidth="260" />
+                <ColumnDefinition Width="1.35*" MinWidth="330" />
+                <ColumnDefinition Width="1.1*" MinWidth="300" />
             </Grid.ColumnDefinitions>
 
-            <!-- Left: selection and actions -->
-            <StackPanel Grid.Column="0" Margin="6" VerticalAlignment="Stretch" Background="{StaticResource PanelBrush}">
-                <TextBlock Text="Mașini disponibile" FontSize="14" Margin="0,0,0,6" Style="{StaticResource LabelStyle}" />
-                <TextBox x:Name="TxtCautareStanga" Margin="0,0,0,6" KeyDown="TxtCautareStanga_KeyDown" />
-                <Button Content="Caută" Click="BtnSearchLeft_Click" Width="80" Margin="0,0,0,6" Background="{StaticResource ButtonBrush}" />
-                <ComboBox x:Name="MasinaCombo" HorizontalAlignment="Stretch" SelectionChanged="MasinaCombo_SelectionChanged" />
-                <ListBox x:Name="MasiniList" Margin="0,8,0,0" SelectionChanged="MasiniList_SelectionChanged" DisplayMemberPath="Marca" />
+            <Border Style="{StaticResource PanelBorderStyle}" Margin="0,0,14,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
 
-                <UniformGrid Columns="3" Margin="0,10,0,0" HorizontalAlignment="Stretch">
-                    <Button Content="Adaugă" Width="Auto" Margin="2" Background="{StaticResource ButtonBrush}" />
-                    <Button Content="Șterge" Width="Auto" Margin="2" Background="{StaticResource ButtonBrush}" />
-                    <Button Content="Închiriază" Width="Auto" Margin="2" Background="{StaticResource ButtonBrush}" />
-                </UniformGrid>
+                    <TextBlock Text="Catalog masini"
+                               FontSize="20"
+                               FontWeight="Bold" />
 
-                <Separator Margin="0,10,0,10" />
+                    <TextBox x:Name="TxtCautareStanga"
+                             Grid.Row="1"
+                             Margin="0,14,0,8"
+                             KeyDown="TxtCautareStanga_KeyDown" />
 
-                <TextBlock Text="Filtre" Style="{StaticResource LabelStyle}" />
-                <StackPanel Margin="0,6,0,0">
-                    <CheckBox Content="Disponibile" IsChecked="True" />
-                    <CheckBox Content="Cutie automată" />
-                    <CheckBox Content="Aer condiționat" />
-					<CheckBox Content="Iluminare" />
-					<CheckBox Content="5 locuri" />
-					<CheckBox Content="7 locuri" />
-                </StackPanel>
-            </StackPanel>
+                    <WrapPanel Grid.Row="2" Margin="0,0,0,10">
+                        <Button Content="Cauta"
+                                Click="BtnSearchLeft_Click"
+                                Style="{StaticResource PrimaryButtonStyle}"
+                                Margin="0,0,8,8" />
+                        <Button Content="Reset"
+                                Click="BtnResetFilters_Click"
+                                Margin="0,0,8,8" />
+                    </WrapPanel>
 
-            <!-- Center: details area -->
-            <Border Grid.Column="1" Margin="6" Padding="10" BorderBrush="{StaticResource TurquoiseDark}" BorderThickness="1" CornerRadius="6" Background="{StaticResource TurquoiseLight}">
+                    <ListBox x:Name="MasiniList"
+                             Grid.Row="3"
+                             SelectionChanged="MasiniList_SelectionChanged">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Padding="8"
+                                        Margin="0,2"
+                                        BorderBrush="#EDF1F7"
+                                        BorderThickness="0,0,0,1">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Descriere}"
+                                                   FontWeight="Bold"
+                                                   FontSize="14" />
+                                        <TextBlock Text="{Binding PretAfisare}"
+                                                   Foreground="{StaticResource MutedBrush}" />
+                                        <TextBlock Text="{Binding StatusDisponibilitate}"
+                                                   Foreground="{StaticResource PrimaryBrush}"
+                                                   FontWeight="SemiBold" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <StackPanel Grid.Row="4" Margin="0,12,0,0">
+                        <TextBlock Text="Filtre rapide" Style="{StaticResource FieldLabelStyle}" />
+                        <CheckBox x:Name="ChkFiltruDisponibile" Content="Doar disponibile" IsChecked="False" Checked="Filter_Changed" Unchecked="Filter_Changed" />
+                        <CheckBox x:Name="ChkFiltruAutomata" Content="Cutie automata" Checked="Filter_Changed" Unchecked="Filter_Changed" />
+                        <CheckBox x:Name="ChkFiltruAer" Content="Aer conditionat" Checked="Filter_Changed" Unchecked="Filter_Changed" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="1"
+                    Style="{StaticResource PanelBorderStyle}"
+                    Margin="0,0,14,0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <TextBlock Text="Detalii mașină" FontSize="16" FontWeight="Bold" Margin="0,0,0,8" />
-                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <TextBlock Text="Preview inchiriere"
+                               FontSize="20"
+                               FontWeight="Bold" />
+
+                    <ScrollViewer Grid.Row="1"
+                                  VerticalScrollBarVisibility="Auto"
+                                  Margin="0,14,0,12">
                         <StackPanel>
-                            <Image x:Name="ImgDetalii" Height="180" Stretch="Uniform" Margin="0,0,0,8" Source="{Binding SelectedItem.ImageUrl, ElementName=MasinaCombo}" />
-                            <TextBlock x:Name="TxtDetalii" Text="Selectează o mașină..." TextWrapping="Wrap" />
+                            <Border Height="190"
+                                    Background="{StaticResource SurfaceAltBrush}"
+                                    CornerRadius="8"
+                                    Margin="0,0,0,12">
+                                <Image x:Name="ImgDetalii"
+                                       Stretch="Uniform"
+                                       Margin="8" />
+                            </Border>
+                            <TextBlock x:Name="TxtDetalii"
+                                       Text="Selecteaza o masina din catalog."
+                                       FontSize="14"
+                                       TextWrapping="Wrap" />
                         </StackPanel>
                     </ScrollViewer>
+
+                    <Border Grid.Row="2"
+                            Background="{StaticResource SurfaceAltBrush}"
+                            BorderBrush="{StaticResource LineBrush}"
+                            BorderThickness="1"
+                            CornerRadius="8"
+                            Padding="12">
+                        <StackPanel>
+                            <TextBlock Text="Calculator pret" FontWeight="Bold" />
+                            <Grid Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="12" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <DatePicker x:Name="StartDatePicker" />
+                                <DatePicker x:Name="EndDatePicker" Grid.Column="2" />
+                            </Grid>
+                            <WrapPanel Margin="0,10,0,0">
+                                <Button Content="Calculeaza total"
+                                        Click="BtnCalcTotal_Click"
+                                        Style="{StaticResource UpdateButtonStyle}"
+                                        Margin="0,0,8,8" />
+                                <Button Content="Rezerva"
+                                        Click="BtnOpenReservation_Click"
+                                        Style="{StaticResource ReserveButtonStyle}"
+                                        Margin="0,0,8,8" />
+                            </WrapPanel>
+                            <TextBlock x:Name="TxtCost"
+                                       FontWeight="Bold"
+                                       Foreground="{StaticResource PrimaryDarkBrush}" />
+                        </StackPanel>
+                    </Border>
                 </Grid>
             </Border>
 
-            <!-- Right: editor - add / edit entity -->
-            <StackPanel Grid.Column="2" Margin="6" Background="{StaticResource PanelBrush}">
-                <TextBlock Text="Editor mașină" FontSize="14" Style="{StaticResource LabelStyle}" />
+            <Border Grid.Column="2"
+                    Style="{StaticResource PanelBorderStyle}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Text="Editor masina"
+                                   FontSize="20"
+                                   FontWeight="Bold" />
 
-                <TextBlock Text="Marca" Margin="0,8,0,0" Style="{StaticResource LabelStyle}" />
-                <TextBox x:Name="TxtMarca" />
+                        <TextBlock Text="Marca" Style="{StaticResource FieldLabelStyle}" />
+                        <TextBox x:Name="TxtMarca" />
 
-                <TextBlock Text="Model" Margin="0,8,0,0" Style="{StaticResource LabelStyle}" />
-                <TextBox x:Name="TxtModel" />
+                        <TextBlock Text="Model" Style="{StaticResource FieldLabelStyle}" />
+                        <TextBox x:Name="TxtModel" />
 
-                <TextBlock Text="Preț pe zi" Margin="0,8,0,0" Style="{StaticResource LabelStyle}" />
-                <TextBox x:Name="TxtPret" />
+                        <TextBlock Text="Pret pe zi" Style="{StaticResource FieldLabelStyle}" />
+                        <TextBox x:Name="TxtPret" />
 
-                <CheckBox x:Name="ChkDisponibila" Content="Disponibilă" Margin="0,8,0,0" />
+                        <TextBlock Text="Imagine URL" Style="{StaticResource FieldLabelStyle}" />
+                        <TextBox x:Name="TxtImageUrl" />
 
-                <TextBlock Text="Culoare" Margin="0,8,0,0" />
-                <StackPanel Orientation="Horizontal">
-                    <RadioButton x:Name="RbCuloareNecunoscut" Content="Necunoscut" GroupName="Culoare" IsChecked="True" Margin="0,0,6,0" />
-                    <RadioButton x:Name="RbCuloareRosu" Content="Roșu" GroupName="Culoare" Margin="0,0,6,0" />
-                    <RadioButton x:Name="RbCuloareAlb" Content="Alb" GroupName="Culoare" Margin="0,0,6,0" />
-                    <RadioButton x:Name="RbCuloareNegru" Content="Negru" GroupName="Culoare" />
-                </StackPanel>
+                        <CheckBox x:Name="ChkDisponibila"
+                                  Content="Disponibila"
+                                  Margin="0,10,0,0" />
 
-                <TextBlock Text="Opțiuni" Margin="0,8,0,0" />
-                <StackPanel>
-                    <CheckBox x:Name="ChkAer" Content="Aer condiționat" />
-                    <CheckBox x:Name="ChkNavigatie" Content="Navigație" />
-                    <CheckBox x:Name="ChkCutie" Content="Cutie automată" />
-					<CheckBox x:Name="ChkIluminare" Content="Iluminare" />
-					<CheckBox x:Name="Chk7Locuri" Content="7 locuri" />
-					<CheckBox x:Name="Chk5Locuri" Content="5 locuri" />
-                </StackPanel>
+                        <TextBlock Text="Culoare" Style="{StaticResource FieldLabelStyle}" />
+                        <ComboBox x:Name="CuloareComboBox" />
 
-                <TextBlock Text="Perioadă închiriere" Margin="0,8,0,0" Style="{StaticResource LabelStyle}" />
-                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
-                    <DatePicker x:Name="StartDatePicker" Width="120" />
-                    <DatePicker x:Name="EndDatePicker" Width="120" Margin="8,0,0,0" />
-                </StackPanel>
-                <Button Content="Calculează total" Click="BtnCalcTotal_Click" Margin="0,8,0,0" />
-                <TextBlock x:Name="TxtCost" FontWeight="Bold" Margin="0,6,0,0" />
+                        <TextBlock Text="Optiuni" Style="{StaticResource FieldLabelStyle}" />
+                        <WrapPanel>
+                            <CheckBox x:Name="ChkAer" Content="Aer conditionat" />
+                            <CheckBox x:Name="ChkNavigatie" Content="Navigatie" />
+                            <CheckBox x:Name="ChkCutie" Content="Cutie automata" />
+                            <CheckBox x:Name="ChkIluminare" Content="Iluminare ambientala" />
+                            <CheckBox x:Name="Chk5Locuri" Content="5 locuri" />
+                            <CheckBox x:Name="Chk7Locuri" Content="7 locuri" />
+                        </WrapPanel>
 
-                <UniformGrid Columns="3" Margin="0,10,0,0">
-                    <Button x:Name="BtnAdd" Content="Adaugă" Click="BtnAdd_Click" Margin="4" Background="{StaticResource ButtonBrush}" />
-                    <Button x:Name="BtnUpdate" Content="Actualizează" Click="BtnUpdate_Click" Margin="4" Background="{StaticResource ButtonBrush}" />
-                    <Button x:Name="BtnDelete" Content="Șterge" Click="BtnDelete_Click" Margin="4" Background="{StaticResource ButtonBrush}" />
-                </UniformGrid>
+                        <Border x:Name="EditorMessagePanel"
+                                Margin="0,12,0,0"
+                                Padding="10"
+                                CornerRadius="8"
+                                BorderThickness="1"
+                                Visibility="Collapsed">
+                            <TextBlock x:Name="EditorMessageText"
+                                       TextWrapping="Wrap" />
+                        </Border>
 
-                <Separator Margin="0,10,0,10" />
-
-                <TextBlock Text="Total mașini:" Margin="0,6,0,0" />
-                <TextBlock x:Name="TxtTotalMasini" Text="0" FontWeight="Bold" />
-            </StackPanel>
+                        <UniformGrid Columns="3" Margin="0,14,0,0">
+                            <Button x:Name="BtnAdd"
+                                    Content="Adauga"
+                                    Click="BtnAdd_Click"
+                                    Style="{StaticResource AddButtonStyle}"
+                                    Margin="0,0,6,0" />
+                            <Button x:Name="BtnUpdate"
+                                    Content="Actualizeaza"
+                                    Click="BtnUpdate_Click"
+                                    Style="{StaticResource UpdateButtonStyle}"
+                                    Margin="0,0,6,0" />
+                            <Button x:Name="BtnDelete"
+                                    Content="Sterge"
+                                    Click="BtnDelete_Click"
+                                    Style="{StaticResource DeleteButtonStyle}" />
+                        </UniformGrid>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
         </Grid>
-    </Grid>
+    </DockPanel>
 </Window>

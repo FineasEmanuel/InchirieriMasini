@@ -1,25 +1,30 @@
-# Închirieri mașini
-Aplicația de închirieri de mașini va permite angajaților unui birou de închiriere să gestioneze eficient procesul de închiriere. După autentificare, angajatul va putea vizualiza lista completă de mașini disponibile, va selecta o mașină, va înregistra datele clientului (Nume, Prenume, CNP), va alege perioada de închiriere și va confirma contractul. Sistemul va calcula automat prețul total pe baza numărului de zile și va salva toate informațiile în baza de date. Mașina va deveni indisponibilă pentru alți clienți. La final, contractul poate fi tipărit. Aplicația va asigura o gestionare rapidă și organizată a închirierilor.
-Operațiile pentru implementarea aplicației:
-1. Autentificare angajați:
-Angajatul introduce username și parolă. Sistemul validează și acordă acces în aplicație.
-2. Afișare listă mașini:
-Sistemul afișează lista cu toate mașinile din firmă cu statusul fiecăreia (Disponibilă / Indisponibilă).
-3. Filtrare mașini disponibile:
-Se afișează doar mașinile disponibile pentru închiriere.
-4. Selectare mașină:
-Angajatul selectează mașina dorită. Sistemul verifică dacă este disponibilă.
-5. Înregistrare date client:
-Introducerea datelor clientului: Nume, Prenume, CNP. Se validează CNP-ul și se verifică dacă clientul există deja.
-6. Selectare datele perioadei de închiriere:
-Introducerea datei de început și datei de sfârșit. Sistemul calculează numărul de zile și prețul total.
-7. Confirmare contract:
-Se afișează rezumatul și se confirmă contractul de închiriere.
-8. Salvare în baza de date:
-Se salvează datele contractului și ale clientului în baza de date.
-9. Marcare mașină ca indisponibilă:
-Mașina selectată devine indisponibilă și nu mai apare în lista disponibilelor.
-10. Generare contract:
-Se generează contractul de închiriere care poate fi tipărit.
-11. Ieșire program:
-Angajatul se deconectează din aplicație.
+# InchirieriMasini
+
+Aplicatie C# / WPF pentru administrarea unei firme de inchirieri auto.
+
+## Structura
+
+- `Inchirieri.Core` - modele de domeniu: `Masina`, `Client`, `Inchiriere`, `Angajat`.
+- `Inchirieri.Data` - persistenta in fisiere text si serializatoare.
+- `Inchirieri.Wpf` - interfata grafica pentru angajati si clienti.
+- `Inchirieri` - varianta simpla de consola.
+
+## Functionalitati
+
+- autentificare pentru angajati si clienti;
+- CRUD complet pentru masini, cu salvare in `data/masini.txt`;
+- CRUD pentru clienti, cu salvare in `data/clienti.txt`;
+- cautare si filtrare masini dupa marca, model, disponibilitate si optiuni;
+- rezervare masina cu verificare de suprapuneri;
+- calcul automat al pretului in functie de perioada selectata;
+- stocare in fisiere text pentru masini, clienti, angajati si rezervari;
+- UI WPF distinct, cu tema albastru-indigo si accent amber.
+
+## Rulare
+
+```powershell
+dotnet build Inchirieri.slnx
+dotnet run --project .\Inchirieri.Wpf\Inchirieri.Wpf.csproj
+```
+
+Pentru login rapid exista contul initial `admin` / `1234`, creat automat daca nu exista angajati salvati.

@@ -3,26 +3,120 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="LoginWindow.xaml">
     <Application.Resources>
-        <!-- Turquoise theme brushes -->
-        <SolidColorBrush x:Key="TurquoiseLight" Color="#FFDEFBF5" />
-        <SolidColorBrush x:Key="TurquoiseMedium" Color="#FF9EEFE6" />
-        <SolidColorBrush x:Key="TurquoiseDark" Color="#FF2BB6A5" />
-        <SolidColorBrush x:Key="PanelBrush" Color="#FFE6F9F6" />
-        <SolidColorBrush x:Key="ButtonBrush" Color="#FF57D3C2" />
-        <SolidColorBrush x:Key="TextBoxBrush" Color="#FFFFFFFF" />
+        <SolidColorBrush x:Key="PageBrush" Color="#F5F7FB" />
+        <SolidColorBrush x:Key="SurfaceBrush" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="SurfaceAltBrush" Color="#EEF3FA" />
+        <SolidColorBrush x:Key="PrimaryBrush" Color="#3046C8" />
+        <SolidColorBrush x:Key="PrimaryDarkBrush" Color="#202A67" />
+        <SolidColorBrush x:Key="AccentBrush" Color="#F0B429" />
+        <SolidColorBrush x:Key="TextBrush" Color="#172033" />
+        <SolidColorBrush x:Key="MutedBrush" Color="#687389" />
+        <SolidColorBrush x:Key="LineBrush" Color="#D8DFEA" />
+        <SolidColorBrush x:Key="DangerBrush" Color="#C24141" />
+        <SolidColorBrush x:Key="SuccessBrush" Color="#1C8D63" />
 
-        <!-- Light background and black text as default -->
+        <LinearGradientBrush x:Key="HeaderBrush" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#202A67" Offset="0" />
+            <GradientStop Color="#3046C8" Offset="0.58" />
+            <GradientStop Color="#F0B429" Offset="1" />
+        </LinearGradientBrush>
+
         <Style TargetType="Window">
-            <Setter Property="Background" Value="White" />
-            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Background" Value="{StaticResource PageBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="FontSize" Value="13" />
         </Style>
 
         <Style TargetType="TextBlock">
-            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <Style x:Key="FieldLabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource MutedBrush}" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Margin" Value="0,8,0,4" />
+        </Style>
+
+        <Style x:Key="PanelBorderStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource LineBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="14" />
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="BorderBrush" Value="#C8D2E2" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="MinHeight" Value="34" />
+            <Setter Property="Padding" Value="8,5" />
+        </Style>
+
+        <Style TargetType="PasswordBox">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="BorderBrush" Value="#C8D2E2" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="MinHeight" Value="34" />
+            <Setter Property="Padding" Value="8,5" />
+        </Style>
+
+        <Style TargetType="ComboBox">
+            <Setter Property="MinHeight" Value="34" />
+            <Setter Property="Padding" Value="6,4" />
+            <Setter Property="BorderBrush" Value="#C8D2E2" />
+        </Style>
+
+        <Style TargetType="DatePicker">
+            <Setter Property="MinHeight" Value="34" />
+        </Style>
+
+        <Style TargetType="ListBox">
+            <Setter Property="BorderBrush" Value="{StaticResource LineBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Background" Value="White" />
         </Style>
 
         <Style TargetType="Button">
-            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="{StaticResource LineBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="12,6" />
+            <Setter Property="MinHeight" Value="34" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+        <Style x:Key="AddButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}" />
+
+        <Style x:Key="UpdateButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#EDF2FF" />
+            <Setter Property="BorderBrush" Value="#A9B7F5" />
+            <Setter Property="Foreground" Value="{StaticResource PrimaryDarkBrush}" />
+        </Style>
+
+        <Style x:Key="DeleteButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#FFF0F0" />
+            <Setter Property="BorderBrush" Value="#F0BBBB" />
+            <Setter Property="Foreground" Value="{StaticResource DangerBrush}" />
+        </Style>
+
+        <Style x:Key="ReserveButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}" />
+            <Setter Property="Foreground" Value="#172033" />
         </Style>
     </Application.Resources>
 </Application>

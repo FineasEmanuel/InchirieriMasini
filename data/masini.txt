@@ -1,0 +1,5 @@
+1;Dacia;Logan;100;True;Rosu;AerConditionat, Bluetooth, CinciLocuri;https://placehold.co/640x360/png?text=Dacia+Logan
+2;BMW;X5;300;True;Negru;Navigatie, CutieAutomata, CameraMarsarier;https://placehold.co/640x360/png?text=BMW+X5
+3;Audi;A4;250;False;Albastru;ScauneIncalzite, PilotAutomat;https://placehold.co/640x360/png?text=Audi+A4
+4;Toyota;Corolla;150;True;Alb;AerConditionat, Navigatie, CinciLocuri;https://placehold.co/640x360/png?text=Toyota+Corolla
+5;Volkswagen;Golf;180;True;Gri;CutieAutomata, SenzoriParcare;https://placehold.co/640x360/png?text=Volkswagen+Golf

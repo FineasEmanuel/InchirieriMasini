@@ -1,52 +1,140 @@
 <Window x:Class="Inchirieri.Wpf.ClientViewWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Vizualizare Mașini" Height="450" Width="800" WindowStartupLocation="CenterScreen">
-    <Grid Margin="8">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
-        <Border Grid.Column="0" Background="{StaticResource PanelBrush}" Padding="8" CornerRadius="6">
+        Title="AutoRent Desk - Clienti"
+        Height="660"
+        Width="980"
+        MinHeight="600"
+        MinWidth="880"
+        WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <Border DockPanel.Dock="Top"
+                Background="{StaticResource HeaderBrush}"
+                Padding="22,16">
             <StackPanel>
-            <TextBlock Text="Mașini" FontWeight="Bold" />
-            <TextBox x:Name="TxtCautareClient" Margin="0,6,0,6" KeyDown="TxtCautareClient_KeyDown" />
-            <Button Content="Caută" Click="BtnSearchClient_Click" Width="80" />
-            <ListBox x:Name="LstMasiniClient" Margin="0,6,0,0" DisplayMemberPath="Marca" SelectionChanged="LstMasiniClient_SelectionChanged" />
-            <Button x:Name="BtnReserve" Content="Rezervă" Click="BtnReserve_Click" Margin="0,6,0,0" Width="100" IsEnabled="False" Style="{StaticResource ReserveButtonStyle}" />
-            <Separator Margin="0,8,0,8" />
-            <TextBlock Text="Clienți" FontWeight="Bold" />
-            <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
-                <TextBox x:Name="TxtClientSearch" Width="140" />
-                <Button Content="Caută client" Click="BtnSearchClientEntity_Click" Margin="6,0,0,0" />
-            </StackPanel>
-            <ListBox x:Name="LstClienti" Margin="0,6,0,0" DisplayMemberPath="Nume" SelectionChanged="LstClienti_SelectionChanged" />
-            <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
-                <Button x:Name="BtnAddClient" Content="Adaugă client" Click="BtnAddClient_Click" Style="{StaticResource AddButtonStyle}" />
-                <Button x:Name="BtnUpdateClient" Content="Actualizează client" Click="BtnUpdateClient_Click" Margin="6,0,0,0" Style="{StaticResource UpdateButtonStyle}" />
-                <Button x:Name="BtnDeleteClient" Content="Șterge client" Click="BtnDeleteClient_Click" Margin="6,0,0,0" Style="{StaticResource DeleteButtonStyle}" />
-            </StackPanel>
+                <TextBlock Text="Portal clienti"
+                           Foreground="White"
+                           FontSize="28"
+                           FontWeight="Bold" />
+                <TextBlock Text="Cauta masini disponibile si gestioneaza datele clientilor"
+                           Foreground="#E8EDFF" />
             </StackPanel>
         </Border>
 
-        <Border Grid.Column="1" Margin="8" Padding="8" BorderBrush="{StaticResource TurquoiseDark}" BorderThickness="1" Background="{StaticResource PanelBrush}">
-            <ScrollViewer>
-                <StackPanel>
-                    <Image x:Name="ImgClientDetalii" Height="200" Stretch="Uniform" Margin="0,0,0,8" />
-                    <TextBlock x:Name="TxtDetaliiClient" Text="Selectează o mașină..." TextWrapping="Wrap" />
-                    <Separator Margin="0,12,0,12" />
-                    <TextBlock Text="Editor Client" FontWeight="Bold" />
-                    <StackPanel Orientation="Vertical" Margin="0,6,0,0">
-                        <TextBlock Text="Nume" />
-                        <TextBox x:Name="EdNume" Text="{Binding SelectedItem.Nume, ElementName=LstClienti, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBlock Text="Prenume" Margin="0,6,0,0" />
-                        <TextBox x:Name="EdPrenume" Text="{Binding SelectedItem.Prenume, ElementName=LstClienti, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBlock Text="CNP" Margin="0,6,0,0" />
-                        <TextBox x:Name="EdCNP" Text="{Binding SelectedItem.CNP, ElementName=LstClienti, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Grid Margin="18">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="310" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Style="{StaticResource PanelBorderStyle}" Margin="0,0,14,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Masini disponibile" FontSize="18" FontWeight="Bold" />
+                    <StackPanel Grid.Row="1" Margin="0,10,0,10">
+                        <TextBox x:Name="TxtCautareClient" KeyDown="TxtCautareClient_KeyDown" />
+                        <Button Content="Cauta masina"
+                                Click="BtnSearchClient_Click"
+                                Style="{StaticResource PrimaryButtonStyle}"
+                                Margin="0,8,0,0" />
                     </StackPanel>
-                </StackPanel>
-            </ScrollViewer>
-        </Border>
-    </Grid>
+
+                    <ListBox x:Name="LstMasiniClient"
+                             Grid.Row="2"
+                             DisplayMemberPath="Descriere"
+                             SelectionChanged="LstMasiniClient_SelectionChanged" />
+
+                    <Button x:Name="BtnReserve"
+                            Grid.Row="3"
+                            Content="Rezerva masina"
+                            Click="BtnReserve_Click"
+                            IsEnabled="False"
+                            Style="{StaticResource ReserveButtonStyle}"
+                            Margin="0,10,0,16" />
+
+                    <TextBlock Grid.Row="4" Text="Clienti" FontSize="18" FontWeight="Bold" />
+
+                    <StackPanel Grid.Row="5" Margin="0,10,0,0">
+                        <DockPanel>
+                            <TextBox x:Name="TxtClientSearch"
+                                     DockPanel.Dock="Left"
+                                     MinWidth="150" />
+                            <Button Content="Cauta"
+                                    Click="BtnSearchClientEntity_Click"
+                                    Margin="8,0,0,0" />
+                        </DockPanel>
+                        <ListBox x:Name="LstClienti"
+                                 Margin="0,8,0,0"
+                                 Height="150"
+                                 DisplayMemberPath="Nume"
+                                 SelectionChanged="LstClienti_SelectionChanged" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="1" Style="{StaticResource PanelBorderStyle}">
+                <ScrollViewer>
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="260" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Height="180"
+                                    Background="{StaticResource SurfaceAltBrush}"
+                                    CornerRadius="8">
+                                <Image x:Name="ImgClientDetalii"
+                                       Stretch="Uniform"
+                                       Margin="8" />
+                            </Border>
+                            <TextBlock x:Name="TxtDetaliiClient"
+                                       Grid.Column="1"
+                                       Text="Selecteaza o masina..."
+                                       Margin="16,0,0,0"
+                                       FontSize="14" />
+                        </Grid>
+
+                        <Separator Margin="0,18,0,18" />
+
+                        <TextBlock Text="Editor client" FontSize="20" FontWeight="Bold" />
+                        <TextBlock Text="Nume" Style="{StaticResource FieldLabelStyle}" />
+                        <TextBox x:Name="EdNume"
+                                 Text="{Binding SelectedItem.Nume, ElementName=LstClienti, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Text="Prenume" Style="{StaticResource FieldLabelStyle}" />
+                        <TextBox x:Name="EdPrenume"
+                                 Text="{Binding SelectedItem.Prenume, ElementName=LstClienti, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Text="CNP" Style="{StaticResource FieldLabelStyle}" />
+                        <TextBox x:Name="EdCNP"
+                                 Text="{Binding SelectedItem.CNP, ElementName=LstClienti, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <WrapPanel Margin="0,14,0,0">
+                            <Button x:Name="BtnAddClient"
+                                    Content="Adauga client"
+                                    Click="BtnAddClient_Click"
+                                    Style="{StaticResource AddButtonStyle}"
+                                    Margin="0,0,8,8" />
+                            <Button x:Name="BtnUpdateClient"
+                                    Content="Actualizeaza client"
+                                    Click="BtnUpdateClient_Click"
+                                    Style="{StaticResource UpdateButtonStyle}"
+                                    Margin="0,0,8,8" />
+                            <Button x:Name="BtnDeleteClient"
+                                    Content="Sterge client"
+                                    Click="BtnDeleteClient_Click"
+                                    Style="{StaticResource DeleteButtonStyle}"
+                                    Margin="0,0,8,8" />
+                        </WrapPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </DockPanel>
 </Window>

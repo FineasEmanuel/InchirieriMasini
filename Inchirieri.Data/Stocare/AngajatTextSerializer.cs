@@ -13,7 +13,12 @@ namespace Inchirieri.Data.Stocare
 
         public static string Serialize(Angajat a)
         {
-            return string.Join(";", a.Username, a.Parola);
+            return string.Join(";", Curata(a.Username), Curata(a.Parola));
+        }
+
+        private static string Curata(string text)
+        {
+            return text.Replace(';', ',').Trim();
         }
     }
 }

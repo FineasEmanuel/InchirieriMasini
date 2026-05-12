@@ -14,7 +14,10 @@ namespace Inchirieri.Modele
         CameraMarsarier = 1 << 5,
         PilotAutomat = 1 << 6,
         PachetSport = 1 << 7,
-        SenzoriParcare = 1 << 8
+        SenzoriParcare = 1 << 8,
+        IluminareAmbientala = 1 << 9,
+        CinciLocuri = 1 << 10,
+        SapteLocuri = 1 << 11
     }
 
     public enum CuloareMasina
@@ -28,7 +31,10 @@ namespace Inchirieri.Modele
         Gri,
         Galben,
         Orange,
-        Violet
+        Violet,
+        Argintiu,
+        Bej,
+        Maro
     }
 
     public class Masina
@@ -38,11 +44,14 @@ namespace Inchirieri.Modele
         public string Model { get; set; }
         public double PretPeZi { get; set; }
         public bool Disponibila { get; set; }
-        public string? ImageUrl { get; set; }
+        public string ImageUrl { get; set; } = string.Empty;
 
         // Enum fields requested by the assignment
         public CuloareMasina Culoare { get; set; } = CuloareMasina.Necunoscut;
         public OptiuniMasina Optiuni { get; set; } = OptiuniMasina.Niciuna;
+        public string Descriere => $"{Marca} {Model}";
+        public string StatusDisponibilitate => Disponibila ? "Disponibila" : "Indisponibila";
+        public string PretAfisare => $"{PretPeZi:0.##} lei/zi";
 
         public Masina(int id, string marca, string model, double pretPeZi, bool disponibila)
         {

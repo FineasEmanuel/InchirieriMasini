@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using Inchirieri.Modele;
 
 namespace Inchirieri.Data.Stocare
@@ -17,7 +18,7 @@ namespace Inchirieri.Data.Stocare
             var cnp = p[5];
             var start = DateTime.Parse(p[6]);
             var end = DateTime.Parse(p[7]);
-            var total = double.Parse(p[8]);
+            var total = double.Parse(p[8], CultureInfo.InvariantCulture);
 
             var masina = new Masina(id, marca, model, 0, false) { Culoare = CuloareMasina.Necunoscut };
             var client = new Client(nume, prenume, cnp);
@@ -26,7 +27,22 @@ namespace Inchirieri.Data.Stocare
 
         public static string Serialize(Inchiriere i)
         {
-            return string.Join(";", i.Masina.Id, i.Masina.Marca, i.Masina.Model, i.Client.Nume, i.Client.Prenume, i.Client.CNP, i.Start.ToString("o"), i.End.ToString("o"), i.Total);
+            return string.Join(
+                ";",
+                i.Masina.Id,
+                Curata(i.Masina.Marca),
+                Curata(i.Masina.Model),
+                Curata(i.Client.Nume),
+                Curata(i.Client.Prenume),
+                Curata(i.Client.CNP),
+                i.Start.ToString("o"),
+                i.End.ToString("o"),
+                i.Total.ToString(CultureInfo.InvariantCulture));
+        }
+
+        private static string Curata(string text)
+        {
+            return text.Replace(';', ',').Trim();
         }
     }
 }

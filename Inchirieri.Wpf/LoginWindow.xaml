@@ -1,44 +1,71 @@
 <Window x:Class="Inchirieri.Wpf.LoginWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Autentificare" Height="320" Width="460" WindowStartupLocation="CenterScreen">
-    <Grid Margin="12" Background="{StaticResource PanelBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        Title="AutoRent Desk - Autentificare"
+        Height="430"
+        Width="520"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
+    <Grid Background="{StaticResource PageBrush}">
+        <Border Background="{StaticResource HeaderBrush}"
+                Height="120"
+                VerticalAlignment="Top" />
 
-        <TextBlock Text="Autentificare" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" />
-
-        <Border Grid.Row="1" Margin="0,12,0,0" Padding="10" BorderBrush="{StaticResource TurquoiseDark}" BorderThickness="1" CornerRadius="6" Background="{StaticResource PanelBrush}">
+        <Border Width="410"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Style="{StaticResource PanelBorderStyle}">
             <StackPanel>
-                <TextBlock Text="Sunteți:" />
-                <StackPanel Orientation="Horizontal" Margin="0,6,0,12">
-                    <RadioButton x:Name="RbAngajat" Content="Angajat" GroupName="Role" IsChecked="True" Margin="0,0,12,0" />
-                    <RadioButton x:Name="RbClient" Content="Client" GroupName="Role" />
+                <TextBlock Text="AutoRent Desk"
+                           FontSize="26"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center" />
+                <TextBlock Text="Autentificare angajat sau client"
+                           Foreground="{StaticResource MutedBrush}"
+                           HorizontalAlignment="Center"
+                           Margin="0,4,0,18" />
+
+                <TextBlock Text="Rol" Style="{StaticResource FieldLabelStyle}" />
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                    <RadioButton x:Name="RbAngajat"
+                                 Content="Angajat"
+                                 GroupName="Role"
+                                 IsChecked="True"
+                                 Margin="0,0,18,0" />
+                    <RadioButton x:Name="RbClient"
+                                 Content="Client"
+                                 GroupName="Role" />
                 </StackPanel>
 
-                <!-- Angajat fields -->
                 <StackPanel x:Name="PanelAngajat">
-                    <TextBlock Text="Username" />
+                    <TextBlock Text="Username" Style="{StaticResource FieldLabelStyle}" />
                     <TextBox x:Name="TxtUsername" />
-                    <TextBlock Text="Parolă" Margin="0,8,0,0" />
+                    <TextBlock Text="Parola" Style="{StaticResource FieldLabelStyle}" />
                     <PasswordBox x:Name="PwdParola" />
                 </StackPanel>
 
-                <!-- Client fields -->
                 <StackPanel x:Name="PanelClient" Visibility="Collapsed">
-                    <TextBlock Text="Nume" />
+                    <TextBlock Text="Nume" Style="{StaticResource FieldLabelStyle}" />
                     <TextBox x:Name="TxtNume" />
-                    <TextBlock Text="Prenume" Margin="0,8,0,0" />
+                    <TextBlock Text="Prenume" Style="{StaticResource FieldLabelStyle}" />
                     <TextBox x:Name="TxtPrenume" />
-                    <TextBlock Text="CNP" Margin="0,8,0,0" />
-                    <TextBox x:Name="TxtCNP" />
+                    <TextBlock Text="CNP" Style="{StaticResource FieldLabelStyle}" />
+                    <TextBox x:Name="TxtCNP" MaxLength="13" />
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
-                    <Button x:Name="BtnLogin" Content="Autentificare" Width="110" Click="BtnLogin_Click" />
-                    <Button x:Name="BtnCreate" Content="Creează cont" Width="100" Margin="8,0,0,0" Click="BtnCreate_Click" />
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Margin="0,18,0,0">
+                    <Button x:Name="BtnLogin"
+                            Content="Autentificare"
+                            Width="125"
+                            Click="BtnLogin_Click"
+                            Style="{StaticResource PrimaryButtonStyle}" />
+                    <Button x:Name="BtnCreate"
+                            Content="Creeaza cont"
+                            Width="115"
+                            Margin="8,0,0,0"
+                            Click="BtnCreate_Click" />
                 </StackPanel>
             </StackPanel>
         </Border>

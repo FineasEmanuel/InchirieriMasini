@@ -40,6 +40,11 @@ namespace Inchirieri.Data.Stocare
             File.AppendAllText(_filePath, line + Environment.NewLine);
         }
 
+        public void SaveAll(IEnumerable<T> entities)
+        {
+            File.WriteAllLines(_filePath, entities.Select(e => _serializator(e)));
+        }
+
         public void Update(Func<T, bool> predicat, Action<T> updateAction)
         {
             var items = GetAll().ToList();
@@ -55,8 +60,14 @@ namespace Inchirieri.Data.Stocare
 
             if (any)
             {
-                File.WriteAllLines(_filePath, items.Select(e => _serializator(e)));
+                SaveAll(items);
             }
+        }
+
+        public void Delete(Func<T, bool> predicat)
+        {
+            var items = GetAll().Where(entity => !predicat(entity)).ToList();
+            SaveAll(items);
         }
 
         public IEnumerable<T> Find(Func<T, bool> predicat)
