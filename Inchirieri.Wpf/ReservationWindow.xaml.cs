@@ -1,6 +1,8 @@
 using System;
 using System.Windows;
+using System.Windows.Controls;
 using Inchirieri.Modele;
+using Inchirieri.Data.Stocare;
 
 namespace Inchirieri.Wpf
 {
@@ -18,7 +20,7 @@ namespace Inchirieri.Wpf
             EndDate.SelectedDateChanged += Dates_SelectedDateChanged;
         }
 
-        private void Dates_SelectedDateChanged(object sender, RoutedEventArgs e)
+        private void Dates_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             if (StartDate.SelectedDate.HasValue && EndDate.SelectedDate.HasValue)
             {
@@ -57,11 +59,28 @@ namespace Inchirieri.Wpf
                 return;
             }
 
-            // create client and inchiriere in memory and show confirmation
+            // create client and inchiriere and persist reservation if available
             var client = new Client(TxtNume.Text.Trim(), TxtPrenume.Text.Trim(), TxtCNP.Text.Trim());
             var total = zile * _masina.PretPeZi;
             var inchiriere = new Inchiriere(_masina, client, StartDate.SelectedDate.Value, EndDate.SelectedDate.Value, total);
 
+            // check existing reservations
+            var repo = new Inchirieri.Data.Stocare.TextFileRepository<Inchiriere>("data/reservari.txt", InchiriereTextSerializer.Deserialize, InchiriereTextSerializer.Serialize);
+            var existing = repo.GetAll().ToList();
+            foreach (var r in existing)
+            {
+                if (r.Masina.Id == _masina.Id)
+                {
+                    // overlap check: start < r.End && end > r.Start
+                    if (inchiriere.Start < r.End && inchiriere.End > r.Start)
+                    {
+                        MessageBox.Show("Mașina nu este disponibilă în perioada selectată.", "Conflict rezervare", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+                }
+            }
+
+            repo.Add(inchiriere);
             MessageBox.Show($"Rezervare confirmată. Total: {total} lei", "Succes", MessageBoxButton.OK, MessageBoxImage.Information);
             DialogResult = true;
             Close();

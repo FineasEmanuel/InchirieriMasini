@@ -13,12 +13,37 @@
             <TextBox x:Name="TxtCautareClient" Margin="0,6,0,6" KeyDown="TxtCautareClient_KeyDown" />
             <Button Content="Caută" Click="BtnSearchClient_Click" Width="80" />
             <ListBox x:Name="LstMasiniClient" Margin="0,6,0,0" DisplayMemberPath="Marca" SelectionChanged="LstMasiniClient_SelectionChanged" />
-            <Button Content="Rezervă" Click="BtnReserve_Click" Margin="0,6,0,0" Width="100" />
+            <Button x:Name="BtnReserve" Content="Rezervă" Click="BtnReserve_Click" Margin="0,6,0,0" Width="100" IsEnabled="False" />
+            <Separator Margin="0,8,0,8" />
+            <TextBlock Text="Clienți" FontWeight="Bold" />
+            <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                <TextBox x:Name="TxtClientSearch" Width="140" />
+                <Button Content="Caută client" Click="BtnSearchClientEntity_Click" Margin="6,0,0,0" />
+            </StackPanel>
+            <ListBox x:Name="LstClienti" Margin="0,6,0,0" DisplayMemberPath="Nume" SelectionChanged="LstClienti_SelectionChanged" />
+            <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                <Button x:Name="BtnAddClient" Content="Adaugă client" Click="BtnAddClient_Click" />
+                <Button x:Name="BtnUpdateClient" Content="Actualizează client" Click="BtnUpdateClient_Click" Margin="6,0,0,0" />
+                <Button x:Name="BtnDeleteClient" Content="Șterge client" Click="BtnDeleteClient_Click" Margin="6,0,0,0" />
+            </StackPanel>
         </StackPanel>
 
         <Border Grid.Column="1" Margin="8" Padding="8" BorderBrush="LightGray" BorderThickness="1">
             <ScrollViewer>
-                <TextBlock x:Name="TxtDetaliiClient" Text="Selectează o mașină..." TextWrapping="Wrap" />
+                <StackPanel>
+                    <Image x:Name="ImgClientDetalii" Height="200" Stretch="Uniform" Margin="0,0,0,8" />
+                    <TextBlock x:Name="TxtDetaliiClient" Text="Selectează o mașină..." TextWrapping="Wrap" />
+                    <Separator Margin="0,12,0,12" />
+                    <TextBlock Text="Editor Client" FontWeight="Bold" />
+                    <StackPanel Orientation="Vertical" Margin="0,6,0,0">
+                        <TextBlock Text="Nume" />
+                        <TextBox x:Name="EdNume" Text="{Binding SelectedItem.Nume, ElementName=LstClienti, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Text="Prenume" Margin="0,6,0,0" />
+                        <TextBox x:Name="EdPrenume" Text="{Binding SelectedItem.Prenume, ElementName=LstClienti, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Text="CNP" Margin="0,6,0,0" />
+                        <TextBox x:Name="EdCNP" Text="{Binding SelectedItem.CNP, ElementName=LstClienti, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+                </StackPanel>
             </ScrollViewer>
         </Border>
     </Grid>

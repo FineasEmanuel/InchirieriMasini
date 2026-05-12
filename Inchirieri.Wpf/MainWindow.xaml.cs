@@ -18,11 +18,16 @@ namespace Inchirieri.Wpf
             // Seed in-memory data for immediate UI functionality
             _masiniCache = new List<Masina>
             {
-                new Masina(1, "Dacia", "Logan", 100, true) { Culoare = CuloareMasina.Rosu, Optiuni = OptiuniMasina.AerConditionat },
-                new Masina(2, "BMW", "X5", 300, true) { Culoare = CuloareMasina.Negru, Optiuni = OptiuniMasina.Navigatie | OptiuniMasina.CutieAutomata },
-                new Masina(3, "Audi", "A4", 250, false) { Culoare = CuloareMasina.Albastru, Optiuni = OptiuniMasina.ScauneIncalzite },
-                new Masina(4, "Toyota", "Corolla", 150, true) { Culoare = CuloareMasina.Alb, Optiuni = OptiuniMasina.AerConditionat | OptiuniMasina.Navigatie },
-                new Masina(5, "Ford", "Focus", 120, true) { Culoare = CuloareMasina.Necunoscut, Optiuni = OptiuniMasina.Niciuna }
+                new Masina(1, "Dacia", "Logan", 60, true) { Culoare = CuloareMasina.Rosu, Optiuni = OptiuniMasina.AerConditionat | OptiuniMasina.Bluetooth, ImageUrl = "https://via.placeholder.com/400x200.png?text=Dacia+Logan" },
+                new Masina(2, "BMW", "X5", 150, true) { Culoare = CuloareMasina.Negru, Optiuni = OptiuniMasina.Navigatie | OptiuniMasina.CutieAutomata | OptiuniMasina.CameraMarsarier, ImageUrl = "https://via.placeholder.com/400x200.png?text=BMW+X5" },
+                new Masina(3, "Audi", "A4", 140, false) { Culoare = CuloareMasina.Albastru, Optiuni = OptiuniMasina.ScauneIncalzite | OptiuniMasina.PilotAutomat, ImageUrl = "https://via.placeholder.com/400x200.png?text=Audi+A4" },
+                new Masina(4, "Toyota", "Corolla", 70, true) { Culoare = CuloareMasina.Alb, Optiuni = OptiuniMasina.AerConditionat | OptiuniMasina.Navigatie, ImageUrl = "https://via.placeholder.com/400x200.png?text=Toyota+Corolla" },
+                new Masina(5, "Ford", "Focus", 65, true) { Culoare = CuloareMasina.Necunoscut, Optiuni = OptiuniMasina.Niciuna, ImageUrl = "https://via.placeholder.com/400x200.png?text=Ford+Focus" },
+                new Masina(6, "Hyundai", "i20", 50, true) { Culoare = CuloareMasina.Gri, Optiuni = OptiuniMasina.Bluetooth | OptiuniMasina.SenzoriParcare, ImageUrl = "https://via.placeholder.com/400x200.png?text=Hyundai+i20" },
+                new Masina(7, "Kia", "Rio", 55, true) { Culoare = CuloareMasina.Verde, Optiuni = OptiuniMasina.AerConditionat | OptiuniMasina.Bluetooth, ImageUrl = "https://via.placeholder.com/400x200.png?text=Kia+Rio" },
+                new Masina(8, "Skoda", "Fabia", 58, true) { Culoare = CuloareMasina.Galben, Optiuni = OptiuniMasina.Navigatie | OptiuniMasina.SenzoriParcare, ImageUrl = "https://via.placeholder.com/400x200.png?text=Skoda+Fabia" },
+                new Masina(9, "Renault", "Clio", 52, true) { Culoare = CuloareMasina.Orange, Optiuni = OptiuniMasina.AerConditionat | OptiuniMasina.CutieAutomata, ImageUrl = "https://via.placeholder.com/400x200.png?text=Renault+Clio" },
+                new Masina(10, "Peugeot", "208", 57, true) { Culoare = CuloareMasina.Violet, Optiuni = OptiuniMasina.PachetSport | OptiuniMasina.Bluetooth, ImageUrl = "https://via.placeholder.com/400x200.png?text=Peugeot+208" }
             };
 
             MasinaCombo.ItemsSource = _masiniCache;
@@ -100,7 +105,15 @@ namespace Inchirieri.Wpf
         {
             if (MasinaCombo.SelectedItem is Masina m)
             {
-                TxtDetalii.Text = $"ID: {m.Id}\nMarca: {m.Marca}\nModel: {m.Model}\nPret/zi: {m.PretPeZi}\nDisponibila: {m.Disponibila}\nCuloare: {m.Culoare}\nOptiuni: {m.Optiuni}";
+                TxtDetalii.Text = $"ID: {m.Id}\nMarca: {m.Marca}\nModel: {m.Model}\nPret/zi: {m.PretPeZi} lei\nDisponibila: {m.Disponibila}\nCuloare: {m.Culoare}\nOptiuni: {m.Optiuni}";
+                try
+                {
+                    ImgDetalii.Source = new System.Windows.Media.Imaging.BitmapImage(new Uri(m.ImageUrl));
+                }
+                catch
+                {
+                    ImgDetalii.Source = null;
+                }
 
                 // populate editor fields
                 TxtMarca.Text = m.Marca;

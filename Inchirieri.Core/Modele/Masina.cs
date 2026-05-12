@@ -9,7 +9,12 @@ namespace Inchirieri.Modele
         AerConditionat = 1 << 0,
         Navigatie = 1 << 1,
         CutieAutomata = 1 << 2,
-        ScauneIncalzite = 1 << 3
+        ScauneIncalzite = 1 << 3,
+        Bluetooth = 1 << 4,
+        CameraMarsarier = 1 << 5,
+        PilotAutomat = 1 << 6,
+        PachetSport = 1 << 7,
+        SenzoriParcare = 1 << 8
     }
 
     public enum CuloareMasina
@@ -18,7 +23,12 @@ namespace Inchirieri.Modele
         Rosu,
         Alb,
         Negru,
-        Albastru
+        Albastru,
+        Verde,
+        Gri,
+        Galben,
+        Orange,
+        Violet
     }
 
     public class Masina
@@ -28,6 +38,7 @@ namespace Inchirieri.Modele
         public string Model { get; set; }
         public double PretPeZi { get; set; }
         public bool Disponibila { get; set; }
+        public string? ImageUrl { get; set; }
 
         // Enum fields requested by the assignment
         public CuloareMasina Culoare { get; set; } = CuloareMasina.Necunoscut;

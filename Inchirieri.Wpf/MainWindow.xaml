@@ -86,6 +86,9 @@
                     <CheckBox Content="Disponibile" IsChecked="True" />
                     <CheckBox Content="Cutie automată" />
                     <CheckBox Content="Aer condiționat" />
+					<CheckBox Content="Iluminare" />
+					<CheckBox Content="5 locuri" />
+					<CheckBox Content="7 locuri" />
                 </StackPanel>
             </StackPanel>
 
@@ -99,7 +102,10 @@
 
                     <TextBlock Text="Detalii mașină" FontSize="16" FontWeight="Bold" Margin="0,0,0,8" />
                     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                        <TextBlock x:Name="TxtDetalii" Text="Selectează o mașină..." TextWrapping="Wrap" />
+                        <StackPanel>
+                            <Image x:Name="ImgDetalii" Height="180" Stretch="Uniform" Margin="0,0,0,8" Source="{Binding SelectedItem.ImageUrl, ElementName=MasinaCombo}" />
+                            <TextBlock x:Name="TxtDetalii" Text="Selectează o mașină..." TextWrapping="Wrap" />
+                        </StackPanel>
                     </ScrollViewer>
                 </Grid>
             </Border>
@@ -132,6 +138,9 @@
                     <CheckBox x:Name="ChkAer" Content="Aer condiționat" />
                     <CheckBox x:Name="ChkNavigatie" Content="Navigație" />
                     <CheckBox x:Name="ChkCutie" Content="Cutie automată" />
+					<CheckBox x:Name="ChkIluminare" Content="Iluminare" />
+					<CheckBox x:Name="Chk7Locuri" Content="7 locuri" />
+					<CheckBox x:Name="Chk5Locuri" Content="5 locuri" />
                 </StackPanel>
 
                 <TextBlock Text="Perioadă închiriere" Margin="0,8,0,0" Style="{StaticResource LabelStyle}" />
