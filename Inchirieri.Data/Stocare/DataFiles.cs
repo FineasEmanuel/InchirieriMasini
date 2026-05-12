@@ -10,7 +10,11 @@ namespace Inchirieri.Data.Stocare
 
             while (current != null)
             {
-                if (File.Exists(Path.Combine(current.FullName, "Inchirieri.slnx")))
+                bool isRepositoryRoot =
+                    File.Exists(Path.Combine(current.FullName, "Inchirieri.sln")) ||
+                    File.Exists(Path.Combine(current.FullName, "Inchirieri.slnx"));
+
+                if (isRepositoryRoot)
                 {
                     return EnsureDataPath(current.FullName, fileName);
                 }

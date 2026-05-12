@@ -23,7 +23,7 @@ Aplicatie C# / WPF pentru administrarea unei firme de inchirieri auto.
 ## Rulare
 
 ```powershell
-dotnet build Inchirieri.slnx
+dotnet build Inchirieri.sln
 dotnet run --project .\Inchirieri.Wpf\Inchirieri.Wpf.csproj
 ```
 
